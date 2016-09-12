@@ -1,0 +1,36 @@
+version: '2'
+services:
+  gc:
+    image: geoconcerns/geoconcerns
+    ports:
+      - "3000:3000"
+    depends_on:
+      - solr
+      - fedora
+      - redis
+    links:
+      - solr
+      - fedora
+      - redis
+    environment:
+      SOLR_URL: http://solr:8983/solr/hydra-development
+      FCREPO_URL: http://fedora:8984/rest
+      REDIS_HOST: redis
+  solr:
+    image: geoconcerns/geoconcerns
+    command: solr_wrapper -p 8983 -d solr/config/ --collection_name hydra-development
+    expose:
+      - "8983"
+    ports:
+      - "8983:8983"
+  fedora:
+    image: geoconcerns/geoconcerns
+    command: fcrepo_wrapper -p 8984 --no-jms
+    expose:
+      - "8984"
+    ports:
+      - "8984:8984"
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
