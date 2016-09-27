@@ -1,6 +1,7 @@
 FROM ruby:2.3.1-alpine
 
 MAINTAINER Eliot Jordan <eliot.jordan@gmail.com>
+# Adapted from centurylink/alpine-rails
 
 ENV BUILD_PACKAGES="curl-dev ruby-dev build-base" \
     DEV_PACKAGES="zlib-dev libxml2-dev libxslt-dev tzdata yaml-dev sqlite-dev" \
