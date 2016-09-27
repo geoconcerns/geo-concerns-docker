@@ -32,6 +32,13 @@ WORKDIR /usr/src
 RUN yes Y | rails new geoblacklight -m https://raw.githubusercontent.com/geoblacklight/geoblacklight/master/template.rb
 WORKDIR /usr/src/geoblacklight
 
+# Add geoblacklight-messaging gem and set workers class
+RUN echo "gem 'geoblacklight_messaging'" >> Gemfile && \
+  bundle install && \
+  rails generate geoblacklight_messaging:install
+
+ENV WORKERS GeoblacklightMessaging::GeoblacklightEventHandler
+
 # Add default env variable referencing our solr container
 # Depends on --link my_solr_container:solr
 ENV SOLR_URL http://solr:8983/solr/geoblacklight
@@ -40,4 +47,4 @@ VOLUME /usr/src/geoblacklight/tmp
 
 EXPOSE 3000
 
-CMD rails server -b 0.0.0.0
+CMD rails server -b 0.0.0.0 & rake sneakers:run

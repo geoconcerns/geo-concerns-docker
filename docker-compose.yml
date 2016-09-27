@@ -14,12 +14,15 @@ services:
       - "3001:3000"
     links:
       - gblsolr:solr
+      - rabbitmq
+    environment:
+      RABBIT_SERVER: amqp://rabbitmq:5672
   gblsolr:
     image: geoconcerns/geoblacklight-solr
     expose:
       - "8983"
     ports:
-      - "8984:8983"
+      - "9983:8983"
   rabbitmq:
     image: rabbitmq:3.6.5-management
     ports:
