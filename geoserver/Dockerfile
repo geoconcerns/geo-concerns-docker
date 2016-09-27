@@ -70,7 +70,7 @@ RUN if [ "$DISABLE_GWC" = true ]; then \
     fi;	
 
 # Optionally remove Tomcat manager, docs, and examples
-ARG TOMCAT_EXTRAS=true
+ARG TOMCAT_EXTRAS=false
 RUN if [ "$TOMCAT_EXTRAS" = false ]; then \
     rm -rf $CATALINA_HOME/webapps/ROOT && \
     rm -rf $CATALINA_HOME/webapps/docs && \
