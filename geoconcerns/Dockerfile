@@ -67,9 +67,8 @@ WORKDIR /usr/src/geo_concerns
 RUN rake solr:clean
 RUN ruby -e 'require "fcrepo_wrapper"; FcrepoWrapper.wrap( port: 8984 ) do |s|; end;'
 
-ADD fedora.yml /usr/src/geo_concerns/config/fedora.yml
-ADD solr.yml /usr/src/geo_concerns/config/solr.yml
 ADD redis.yml /usr/src/geo_concerns/config/redis.yml
+ADD Rakefile /usr/src/geo_concerns/Rakefile
 
 EXPOSE 3000
 
