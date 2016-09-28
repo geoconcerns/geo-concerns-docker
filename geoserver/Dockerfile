@@ -82,8 +82,6 @@ RUN if [ "$TOMCAT_EXTRAS" = false ]; then \
 # Delete resources after installation
 RUN rm -rf /tmp/resources
 
-#ENV GEOSERVER_HOME /opt/geoserver
+ENV GEOSERVER_HOME /opt/geoserver
 
-#ENTRYPOINT "/opt/geoserver/bin/startup.sh"
-#CMD "/opt/geoserver/bin/startup.sh"
 EXPOSE 8080
