@@ -1,18 +1,17 @@
-FROM tomcat:8.5-alpine
+FROM ruby:2.3.1-alpine
 
-MAINTAINER Eliot Jordan <eliot.jordan@gmail.com>
-# Adpated from cbeer/fcrepo4
+RUN apk add --update bash openjdk8 && rm -rf /var/cache/apk/*
 
-ENV FCREPO_VERSION 4.5.0
+RUN mkdir fedora && mkdir fedora/tmp
+WORKDIR /opt/fedora
 
-# Optionally remove Tomcat manager, docs, and examples
-ARG TOMCAT_EXTRAS=false
-RUN if [ "$TOMCAT_EXTRAS" = false ]; then \
-    rm -rf $CATALINA_HOME/webapps/ROOT && \
-    rm -rf $CATALINA_HOME/webapps/docs && \
-    rm -rf $CATALINA_HOME/webapps/examples && \
-    rm -rf $CATALINA_HOME/webapps/host-manager && \
-    rm -rf $CATALINA_HOME/webapps/manager; \
-  fi;
+ADD Gemfile /opt/fedora
+ADD .fcrepo_wrapper /opt/fedora
+RUN gem install bundler && bundle install
 
-ADD https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-${FCREPO_VERSION}/fcrepo-webapp-${FCREPO_VERSION}.war /usr/local/tomcat/webapps/fcrepo.war
+# dowload fcrepo
+RUN ruby -e "require 'fcrepo_wrapper'; FcrepoWrapper.wrap { }"
+
+EXPOSE 8984
+
+CMD fcrepo_wrapper
