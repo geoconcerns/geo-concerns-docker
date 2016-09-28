@@ -28,3 +28,15 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+  gcsolr:
+    image: geoconcerns/solr
+    expose:
+      - "8983"
+    ports:
+      - "8983:8983"
+  fcrepo:
+    image: geoconcerns/fcrepo
+    expose:
+      - "8984"
+    ports:
+      - "8984:8080"
